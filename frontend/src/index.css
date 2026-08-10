@@ -1,0 +1,480 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #fffbeb;
+  --color-primary-100: #fef3c7;
+  --color-primary-200: #fde68a;
+  --color-primary-300: #fcd34d;
+  --color-primary-400: #fbbf24;
+  --color-primary-500: #f59e0b;
+  --color-primary-600: #d97706;
+  --color-primary-700: #b45309;
+  --color-primary-800: #92400e;
+  --color-primary-900: #78350f;
+  --color-primary-950: #451a03;
+
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+}
+
+/* ============================================
+   全局基础
+   ============================================ */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #030303;
+  color: #f4f4f5;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ============================================
+   背景氛围光斑 — 缓慢浮动的大光晕
+   ============================================ */
+body::before {
+  content: "";
+  position: fixed;
+  top: -30%;
+  left: -15%;
+  width: 60%;
+  height: 80%;
+  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloat1 20s ease-in-out infinite;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: -20%;
+  right: -10%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: ambientFloat2 25s ease-in-out infinite;
+}
+
+@keyframes ambientFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4%, -3%) scale(1.08); }
+  66% { transform: translate(-2%, 2%) scale(0.95); }
+}
+
+@keyframes ambientFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-3%, -4%) scale(1.06); }
+  66% { transform: translate(3%, 2%) scale(0.92); }
+}
+
+/* ============================================
+   噪点纹理叠加 — 模拟高端屏幕质感
+   ============================================ */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ============================================
+   自定义滚动条 — 金色细边
+   ============================================ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1f1f23; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2d2d33; }
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ============================================
+   磨砂玻璃体系 — 四种层级
+   ============================================ */
+
+/* 导航栏级 — 最强模糊，最透 */
+.glass {
+  background: rgba(3, 3, 3, 0.65);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* 面板级 — 通用内容容器 */
+.glass-panel {
+  background: rgba(10, 10, 12, 0.6);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+}
+
+/* 卡片级 — 较不透，强调内容 */
+.glass-card {
+  background: rgba(14, 14, 17, 0.75);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+}
+
+/* 悬浮级 — 更强不透，悬浮阴影 */
+.glass-elevated {
+  background: rgba(16, 16, 20, 0.85);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(251, 191, 36, 0.03);
+}
+
+/* ============================================
+   金色渐变文字
+   ============================================ */
+.gradient-text {
+  background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 40%, #d97706 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-subtle {
+  background: linear-gradient(135deg, #a1a1aa 0%, #d4d4d8 50%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   海报容器
+   ============================================ */
+.poster-container {
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #141416, #08080a);
+  border-radius: 12px;
+}
+.poster-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+}
+.poster-container:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.08);
+}
+
+/* 海报光泽扫过 */
+.poster-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.poster-container:hover::after {
+  opacity: 1;
+}
+
+/* ============================================
+   影片卡片 — 升级版
+   ============================================ */
+.movie-card {
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  background: #0b0b0d;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 卡片内发光边框 — hover 时显现 */
+.movie-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0) 0%,
+    rgba(251, 191, 36, 0) 50%,
+    rgba(251, 191, 36, 0.15) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.movie-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(251, 191, 36, 0.2);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(245, 158, 11, 0.04),
+    0 0 0 1px rgba(251, 191, 36, 0.08);
+}
+
+.movie-card:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   Hero 遮罩层
+   ============================================ */
+.hero-gradient {
+  background: linear-gradient(
+    to right,
+    rgba(3, 3, 3, 0.98) 0%,
+    rgba(3, 3, 3, 0.82) 35%,
+    rgba(3, 3, 3, 0.35) 60%,
+    rgba(3, 3, 3, 0.08) 100%
+  );
+}
+
+.hero-gradient-bottom {
+  background: linear-gradient(
+    to top,
+    #030303 0%,
+    rgba(3, 3, 3, 0.88) 18%,
+    transparent 45%
+  );
+}
+
+/* ============================================
+   按钮 / 组件
+   ============================================ */
+.dl-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dl-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 金色主按钮 */
+.btn-gold {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: #000;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2), 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 6px 24px rgba(245, 158, 11, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+.btn-gold:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 次级按钮 */
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #a1a1aa;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #d4d4d8;
+}
+
+/* 磁吸按钮 */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.magnetic-btn:hover {
+  transform: scale(1.04) translateY(-2px);
+}
+
+/* 输入框 */
+.premium-input {
+  background: rgba(14, 14, 17, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #d4d4d8;
+  backdrop-filter: blur(10px);
+  transition: all 0.25s ease;
+  border-radius: 10px;
+}
+.premium-input:focus {
+  border-color: rgba(251, 191, 36, 0.35);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.06), 0 0 20px rgba(245, 158, 11, 0.03);
+  background: rgba(16, 16, 20, 0.85);
+}
+
+/* ============================================
+   标签
+   ============================================ */
+.tag-gold {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.12);
+  color: #fbbf24;
+}
+
+.tag-dark {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #a1a1aa;
+}
+
+.tag-glass {
+  background: rgba(14, 14, 17, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #d4d4d8;
+}
+
+/* ============================================
+   动画
+   ============================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fadeIn 0.35s ease-out;
+}
+
+/* 交错入场 — 配合 stagger */
+.stagger-item {
+  opacity: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 脉冲呼吸 */
+@keyframes breathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* ============================================
+   横向滚动行
+   ============================================ */
+.horizontal-row {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+}
+.horizontal-row > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   评分徽章
+   ============================================ */
+.rating-badge {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: #fcd34d;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ============================================
+   导航激活态
+   ============================================ */
+.nav-active {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.12);
+}
+
+/* 导航 hover 指示器 — 底部发光条 */
+.nav-indicator {
+  position: relative;
+}
+.nav-indicator::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-indicator:hover::after {
+  width: 60%;
+}
+
+/* ============================================
+   章节分隔线 — 发光细线
+   ============================================ */
+.divider-glow {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 30%,
+    rgba(251, 191, 36, 0.08) 50%,
+    rgba(255, 255, 255, 0.06) 70%,
+    transparent 100%
+  );
+}
+
+/* ============================================
+   详情页 Hero 光斑
+   ============================================ */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.06;
+}
+
+/* ============================================
+   平台标签色彩
+   ============================================ */
+.platform-baidu { @apply bg-blue-500/8 border border-blue-500/15 text-blue-400; }
+.platform-quark { @apply bg-purple-500/8 border border-purple-500/15 text-purple-400; }
+.platform-xunlei { @apply bg-cyan-500/8 border border-cyan-500/15 text-cyan-400; }
+.platform-ali { @apply bg-orange-500/8 border border-orange-500/15 text-orange-400; }

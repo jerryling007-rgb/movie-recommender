@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+backend/venv/
+
+# Node
+frontend/node_modules/
+frontend/.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Env
+.env
+.env.local
+deploy/
+
+# SQLite WAL files
+*.db-shm
+*.db-wal
+
+# Temp/scratch scripts
+backend/run_sync.py

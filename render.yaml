@@ -1,0 +1,16 @@
+# Render.com 一键部署配置
+# 在 Render 中创建 Blueprint，指向此文件即可自动部署
+# 免费额度：750小时/月，足够 24/7 运行
+
+services:
+  - type: web
+    name: movie-recommender
+    runtime: docker
+    repo: https://github.com/jerryling007-rgb/movie-recommender
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: STATIC_DIR
+        value: /app/frontend/dist
+      - key: PYTHONUNBUFFERED
+        value: "1"

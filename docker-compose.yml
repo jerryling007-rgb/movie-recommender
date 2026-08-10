@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - STATIC_DIR=/app/frontend/dist
+    volumes:
+      # 持久化数据库（重启不丢数据）
+      - ./data:/app/data
+    restart: unless-stopped
